@@ -46,8 +46,9 @@ public class Controller {
         }
     }
 
-    public Contact searchingContact(String name) {
-        return contactList.get(name);
+    public Object searching(String name) {
+        if (mod) return contactList.get(name);
+        else return groupList.get(name);
     }
 
     public void create() {
@@ -80,7 +81,7 @@ public class Controller {
         }
 
         frame.setVisible(true);
-        if (mod = true) {
+        if (mod) {
             Contact contact = new Contact(name[0], contactInfo[0]);
             contactList.put(contact.getName(), contact);
         } else {
@@ -150,7 +151,7 @@ public class Controller {
     }
 
     public  void setNewFrame() {
-        
+
     }
 
     public void searchingGroup(String name) {
