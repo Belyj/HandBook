@@ -149,6 +149,10 @@ public class Controller {
         else groupList.remove(name);
     }
 
+    public  void setNewFrame() {
+        
+    }
+
     public void searchingGroup(String name) {
         groupList.get(name);
     }
