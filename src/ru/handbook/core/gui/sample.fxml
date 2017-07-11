@@ -1,0 +1,24 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<HBox fx:controller="ru.handbook.core.gui.Controller"
+      xmlns:fx="http://javafx.com/fxml" alignment="center">
+    <VBox>
+        <Button fx:id="contacts" text="contacts" onAction="#changeMod"/>
+        <Button fx:id="create" text="create" onAction="#create"/>
+        <Button fx:id="refactor" text="refactor" onAction="#refactor"/>
+        <Button fx:id="delete" text="delete" onAction="#delete"/>
+    </VBox>
+    <VBox HBox.hgrow="ALWAYS">
+        <TextField fx:id="search" HBox.hgrow="ALWAYS" promptText="Найти..."/>
+        <TextArea fx:id="list" editable="false" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS"/>
+    </VBox>
+    <VBox>
+        <Button fx:id="addInGroup" text="add group"/>
+        <Button fx:id="deleteFromGroup" text="delete group"/>
+        <Button fx:id="checkInfo" text="info" onAction="#checkInfo"/>
+    </VBox>
+</HBox>
