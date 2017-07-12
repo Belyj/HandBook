@@ -18,7 +18,7 @@ public class Main {
         Chooser chooser = new Chooser();
         while (true) {
             System.out.println("Entery #comand");
-            System.out.println("0: searchContact\n 1: createContact\n 2: changeContact\n 3: deleteContact\n 4: searchGroup\n 5: createGroup\n 6: addInGroup\n 7: deleteFromGroup\n 8: checkContacts\n 9: checkGroups");
+            System.out.println("0: searchContact\n 1: createContact\n 2: changeContact\n 3: deleteContact\n 4: searchGroup\n 5: createGroup\n 6: addInGroup\n 7: deleteFromGroup\n 8: checkContacts\n 9: checkGroups\n 10: deleteGroup");
             int comand = Integer.parseInt(scanner.nextLine());
             chooser.comand(comand);
         }
@@ -57,6 +57,8 @@ public class Main {
                 case (9):
                     checkGroups();
                     break;
+                case (10):
+                    deleteGroup();
                 default:
                     System.out.println("Break");
             }
@@ -152,6 +154,18 @@ public class Main {
             for (String key : groups.keySet()) {
                 System.out.println(key);
             }
+        }
+
+        public void deleteGroup() {
+            System.out.println("Entery name of group");
+            String groupname = scanner.nextLine();
+            groups.remove(groupname);
+            System.out.println("Group " + groupname + " was removed");
+        }
+
+        public void refactoryGroup() {
+            System.out.println("Entery name of group");
+            String groupname = scanner.nextLine();
         }
     }
 }
