@@ -1,5 +1,6 @@
 package ru.handbook.core;
 
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 import sun.invoke.empty.Empty;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class Main {
         Chooser chooser = new Chooser();
         while (true) {
             System.out.println("Entery #comand");
+            System.out.println("0: searchContact\n 1: createContact\n 2: changeContact\n 3: deleteContact\n 4: searchGroup\n 5: createGroup\n 6: addInGroup\n 7: deleteFromGroup\n 8: checkContacts\n 9: checkGroups");
             int comand = Integer.parseInt(scanner.nextLine());
             chooser.comand(comand);
         }
@@ -32,7 +34,7 @@ public class Main {
                     createContact();
                     break;
                 case (2):
-                    refactoryContact();
+                    changeContact();
                     break;
                 case (3):
                     deleteContact();
@@ -45,6 +47,16 @@ public class Main {
                     break;
                 case (6):
                     addInGroup();
+                    break;
+                case (7):
+                    deleteFromGroup();
+                    break;
+                case (8):
+                    checkContacts();
+                    break;
+                case (9):
+                    checkGroups();
+                    break;
                 default:
                     System.out.println("Break");
             }
@@ -63,9 +75,10 @@ public class Main {
             System.out.println("Entery value for " + name);
             String value = scanner.nextLine();
             contacts.add(new Contact(name, value));
+            System.out.println(name + " with value: " + value + " was created");
         }
 
-        public void refactoryContact() {
+        public void changeContact() {
             System.out.println("Entery ID of contact");
             int id = Integer.parseInt(scanner.nextLine());
             System.out.println("Entery new name");
@@ -74,31 +87,33 @@ public class Main {
             String value = scanner.nextLine();
             contacts.get(id).refactor(name, value);
             contacts.get(id).info();
+            System.out.println("Contact changed in name: " + name + "\nvalue: " + value);
         }
 
         public void deleteContact() {
             System.out.println("Entery ID of deleted contact");
             int id = Integer.parseInt(scanner.nextLine());
             contacts.remove(id);
+            System.out.println("Contact was removed");
         }
 
         public void searchGroup() {
             System.out.println("Entery group name");
-            String name = scanner.nextLine();
-            System.out.println(name + ":\n");
-                if (!groups.get(name).isEmpty()) {
-                    for (Contact contact : groups.get(name)) {
+            String groupName = scanner.nextLine();
+            System.out.println(groupName + ":\n");
+                if (!groups.get(groupName).isEmpty()) {
+                    for (Contact contact : groups.get(groupName)) {
                         contact.info();
                     }
-                } else System.out.println("Group is empty");
+                } else System.out.println("Group " + groupName + " is empty");
         }
 
         public void createGroup() {
             System.out.println("Entery group name");
-            String name = scanner.nextLine();
-            if (!groups.containsKey(name)) {
-                groups.put(name, new ArrayList<Contact>());
-            } else System.out.println("Group " + name + " is exist");
+            String groupName = scanner.nextLine();
+            if (!groups.containsKey(groupName)) {
+                groups.put(groupName, new ArrayList<Contact>());
+            } else System.out.println("Group " + groupName + " is exist");
         }
 
         public void addInGroup() {
@@ -111,6 +126,32 @@ public class Main {
             System.out.println("Entery ID of contact");
             int id = Integer.parseInt(scanner.nextLine());
             groups.get(groupName).add(contacts.get(id));
+            System.out.println("Contact was add to the " + groupName + " group");
+        }
+
+        public void deleteFromGroup() {
+            System.out.println("Entery group name");
+            String groupName = scanner.nextLine();
+            System.out.println("Entery ID of contact");
+            int id = Integer.parseInt(scanner.nextLine());
+            groups.get(groupName).remove(id);
+            System.out.println("Contact wa removed from " + groupName);
+        }
+
+        public void checkContacts() {
+            if (contacts.isEmpty()) {
+                System.out.println("Have not any contacts");
+            } else {
+                for (Contact contact : contacts) {
+                    contact.info();
+                }
+            }
+        }
+
+        public void checkGroups() {
+            for (String key : groups.keySet()) {
+                System.out.println(key);
+            }
         }
     }
 }
