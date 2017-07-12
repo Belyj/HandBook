@@ -1,48 +1,78 @@
 package ru.handbook.core;
 
+import java.util.ArrayList;
+
 /**
  * Created by asus on 11.07.2017.
  */
-public class Contact implements Useable {
+public class Contact {
 
-    String name = "";
+    private String name;
+    private String telephone;
+    private String skype;
+    private String mail;
+    private ArrayList<String> groups;
 
-    String value = "";
-
-
-
-    public Contact(String name, String value) {
+    public void setName(String name) {
         this.name = name;
-        this.value = value;
     }
 
-//    public boolean isItEmpty() {
-//        if (name!="") return true;
-//        else return false;
-//    }
-
-    public void create() {
-
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
-    public void refactor(String name, String value) {
-        this.name = name;
-        this.value=value;
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setGroups(ArrayList<String> groups) {
+        this.groups = groups;
     }
 
     public void delete() {
 
     }
 
-    public void addInGroup() {
-
+    public void addInGroup(String groupName) {
+        groups.add(groupName);
     }
 
-    public void removeFromGroup() {
-
+    public void removeFromGroup(String groupName) {
+        groups.remove(groupName);
     }
 
-    public void info() {
-        System.out.println("Name: " + name + "\n"+ "Value" + value);
+    public void getContactInfo() {
+        System.out.println("Name: " + getName() +
+                            "\ntelehpone: " + getTelephone() +
+                            "\nskype: " + getSkype() +
+                            "\nmail: " + getMail() + "\n");
+        System.out.println("Group list");
+        for (String group : groups) {
+            System.out.println(group);
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public String getSkype() {
+        return skype;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public ArrayList<String> getGroups() {
+        return groups;
     }
 }
