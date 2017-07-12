@@ -1,6 +1,7 @@
 package ru.handbook.core;
 
 import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
+import com.sun.xml.internal.ws.api.Component;
 import sun.invoke.empty.Empty;
 
 import java.util.ArrayList;
@@ -13,12 +14,14 @@ import java.util.Scanner;
  */
 public class Main {
     public static boolean flag = true;
+    public static boolean mod = true;
     public static List<Contact> contacts = new ArrayList();
     public static HashMap<String, ArrayList<Contact>> groups = new HashMap();
     public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         Menu menu = new Menu();
-
+        Field field = new Field();
+        field.setVisible(true);
         while (flag) {
             System.out.println("Entery #comand");
             System.out.println("0: searchContact\n 1: createContact\n 2: changeContact\n 3: deleteContact\n 4: searchGroup\n 5: createGroup\n 6: addInGroup\n 7: deleteFromGroup\n 8: checkContacts\n 9: checkGroups\n 10: deleteGroup\n 11: updateGroup");
