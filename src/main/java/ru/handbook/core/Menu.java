@@ -12,40 +12,40 @@ public class Menu {
     public void comand(int comand) {
         switch (comand) {
             case (0):
-                searchContact();
+                //searchContact();
                 break;
             case (1):
-                createContact();
+                //createContact();
                 break;
             case (2):
-                updateContact();
+                //updateContact();
                 break;
             case (3):
-                deleteContact();
+                //deleteContact();
                 break;
             case (4):
-                searchGroup();
+                //searchGroup();
                 break;
             case (5):
-                createGroup();
+                //createGroup();
                 break;
             case (6):
-                addInGroup();
+               // addInGroup();
                 break;
             case (7):
-                deleteFromGroup();
+               // deleteFromGroup();
                 break;
             case (8):
-                checkContacts();
+               // checkContacts();
                 break;
             case (9):
-                checkGroups();
+                //checkGroups();
                 break;
             case (10):
-                deleteGroup();
+                //deleteGroup();
                 break;
             case (11):
-                updateGroup();
+                //updateGroup();
                 break;
             case (12):
                 System.out.println("Exit from programm");
@@ -55,45 +55,48 @@ public class Menu {
         }
     }
 
-    public void searchContact() {
+    public void searchContact(String string) {
         System.out.println("Entery contact name");
-        String name = scanner.nextLine();
+//        String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getName().equals(name)) {
+            if (contacts.get(i).getName().equals(string)) {
                 contacts.get(i).getContactInfo();
+                return;
             }
         }
+        System.out.println("Contact " + string + " does not exist");
     }
 
-    public void createContact() {
+    public void createContact(String string) {
         System.out.println("Entery name of new contact");
-        String name = scanner.nextLine();
+//        String name = scanner.nextLine();
         Contact contact = new Contact();
-        contact.setName(name);
+        contact.setName(string);
         contacts.add(contact);
-        System.out.println(name + " was created");
+        System.out.println("Contact " +string + " was created");
     }
 
-    public void updateContact() {
+    public Contact updateContact(String string) {
         System.out.println("Entery contact name");
-        String name = scanner.nextLine();
+//        String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getName().equals(name)) {
+            if (contacts.get(i).getName().equals(string)) {
                 System.out.println("Entery new name");
-                String quest = scanner.nextLine();
-                contacts.get(i).setName(quest);
-                System.out.println("Entery new telephone");
-                quest = scanner.nextLine();
-                contacts.get(i).setTelephone(quest);
-                System.out.println("Entery new skype");
-                quest = scanner.nextLine();
-                contacts.get(i).setSkype(quest);
-                System.out.println("Entery new mail");
-                contacts.get(i).setMail(quest);
-            } else System.out.println("Handbook have not: " + name);
-        }
+                //String quest = scanner.nextLine();
+                return contacts.get(i);
+//                contacts.get(i).setName(quest);
+//                System.out.println("Entery new telephone");
+//                quest = scanner.nextLine();
+//                contacts.get(i).setTelephone(quest);
+//                System.out.println("Entery new skype");
+//                quest = scanner.nextLine();
+//                contacts.get(i).setSkype(quest);
+//                System.out.println("Entery new mail");
+//                contacts.get(i).setMail(quest);
+            } else return null;//System.out.println("Handbook have not: " + string);
+        } return null;
     }
 
     public void deleteContact() {
@@ -108,23 +111,26 @@ public class Menu {
         System.out.println("Contact was removed");
     }
 
-    public void searchGroup() {
+    public void searchGroup(String string) {
         System.out.println("Entery group name");
-        String groupName = scanner.nextLine();
-        System.out.println(groupName + ":\n");
-        if (!groups.get(groupName).isEmpty()) {
-            for (Contact contact : groups.get(groupName)) {
-                contact.getContactInfo();
-            }
-        } else System.out.println("Group " + groupName + " is empty");
+//        String groupName = scanner.nextLine();
+        System.out.println(string + ":\n");
+        if (!groups.isEmpty()) {
+            if (groups.get(string) != null) {
+                for (Contact contact : groups.get(string)) {
+                    contact.getContactInfo();
+                }
+            } else System.out.println("Group " + string + " does not exist");
+        } else System.out.println("Not any groups was existing");
     }
 
-    public void createGroup() {
+    public void createGroup(String string) {
         System.out.println("Entery group name");
-        String groupName = scanner.nextLine();
-        if (!groups.containsKey(groupName)) {
-            groups.put(groupName, new ArrayList<Contact>());
-        } else System.out.println("Group " + groupName + " is exist");
+//        String groupName = scanner.nextLine();
+        if (!groups.containsKey(string)) {
+            groups.put(string, new ArrayList<Contact>());
+            System.out.println("Group " + string + " was created");
+        } else System.out.println("Group " + string + " is exist");
     }
 
     public void addInGroup() {
@@ -199,7 +205,7 @@ public class Menu {
         System.out.println("Whant you change a contacts? (y)");
         String answer = scanner.nextLine();
         if (answer.equals("y")) {
-            updateContact();
+            //updateContact();
         }
     }
 }
