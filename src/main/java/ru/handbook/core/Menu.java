@@ -1,4 +1,5 @@
 package ru.handbook.core;
+import static ru.handbook.core.Main.flag;
 import static ru.handbook.core.Main.contacts;
 import static ru.handbook.core.Main.groups;
 import static ru.handbook.core.Main.scanner;
@@ -46,16 +47,19 @@ public class Menu {
             case (11):
                 updateGroup();
                 break;
+            case (12):
+                System.out.println("Exit from programm");
+                flag = false;
             default:
-                System.out.println("Break");
+                System.out.println("Handbook have not comand: " + comand);
         }
     }
 
     public void searchContact() {
         System.out.println("Entery contact name");
         String name = scanner.nextLine();
-        int lenght = contacts.size();
-        for (int i = 0; i < lenght; i++) {
+        int length = contacts.size();
+        for (int i = 0; i < length; i++) {
             if (contacts.get(i).getName().equals(name)) {
                 contacts.get(i).getContactInfo();
             }
@@ -74,8 +78,8 @@ public class Menu {
     public void updateContact() {
         System.out.println("Entery contact name");
         String name = scanner.nextLine();
-        int lenght = contacts.size();
-        for (int i = 0; i < lenght; i++) {
+        int length = contacts.size();
+        for (int i = 0; i < length; i++) {
             if (contacts.get(i).getName().equals(name)) {
                 System.out.println("Entery new name");
                 String quest = scanner.nextLine();
@@ -88,15 +92,15 @@ public class Menu {
                 contacts.get(i).setSkype(quest);
                 System.out.println("Entery new mail");
                 contacts.get(i).setMail(quest);
-            }
+            } else System.out.println("Handbook have not: " + name);
         }
     }
 
     public void deleteContact() {
         System.out.println("Entery name of deleted contact");
         String name = scanner.nextLine();
-        int lenght = contacts.size();
-        for (int i = 0; i < lenght; i++) {
+        int length = contacts.size();
+        for (int i = 0; i < length; i++) {
             if (contacts.get(i).getName().equals(name)) {
                 contacts.remove(i);
             }
@@ -132,8 +136,8 @@ public class Menu {
         }
         System.out.println("Entery contact name");
         String name = scanner.nextLine();
-        int lenght = contacts.size();
-        for (int i = 0; i < lenght; i++) {
+        int length = contacts.size();
+        for (int i = 0; i < length; i++) {
             if (contacts.get(i).getName().equals(name)) {
                 contacts.get(i).getGroups().add(groupName);
                 groups.get(groupName).add(contacts.get(i));
@@ -147,11 +151,11 @@ public class Menu {
         String groupName = scanner.nextLine();
         System.out.println("Entery contact name");
         String name = scanner.nextLine();
-        int lenght = contacts.size();
-        for (int i = 0; i < lenght; i++) {
+        int length = contacts.size();
+        for (int i = 0; i < length; i++) {
             if (contacts.get(i).getName().equals(name)) {
-                lenght = contacts.get(i).getGroups().size();
-                for (int j = 0; j < lenght; j++) {
+                length = contacts.get(i).getGroups().size();
+                for (int j = 0; j < length; j++) {
                     if (groups.get(groupName).get(j).equals(name)) {
                         groups.get(groupName).get(j).removeFromGroup(groupName);
                         groups.get(groupName).remove(j);

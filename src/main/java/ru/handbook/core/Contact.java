@@ -51,9 +51,11 @@ public class Contact {
                             "\nskype: " + getSkype() +
                             "\nmail: " + getMail() + "\n");
         System.out.println("Group list");
-        for (String group : groups) {
-            System.out.println(group);
-        }
+        if (groups != null) {
+            for (String group : groups) {
+                System.out.println(group);
+            }
+        } else System.out.println();
     }
 
     public String getName() {
