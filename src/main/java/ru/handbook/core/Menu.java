@@ -7,13 +7,13 @@ import static ru.handbook.core.Main.flag;
 import static ru.handbook.core.Main.contacts;
 import static ru.handbook.core.Main.groups;
 import static ru.handbook.core.Main.scanner;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by operator1 on 12.07.2017.
  */
-public class Menu {
+public class Menu implements Serializable {
     public void command(int command) {
         switch (command) {
             case (0):

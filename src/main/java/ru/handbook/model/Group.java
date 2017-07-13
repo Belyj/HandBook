@@ -1,12 +1,13 @@
 package ru.handbook.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by operator1 on 13.07.2017.
  */
-public class Group {
+public class Group implements Serializable {
 
     private String groupName;
 
