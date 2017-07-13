@@ -1,7 +1,7 @@
 package ru.handbook.core;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
-import sun.invoke.empty.Empty;
+import ru.handbook.model.Contact;
+import ru.handbook.model.Group;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class Main {
     static Menu menu = new Menu();
     public static boolean flag = true;
     public static List<Contact> contacts = new ArrayList();
-    public static HashMap<String, ArrayList<Contact>> groups = new HashMap();
+    public static List<Group> groups = new ArrayList();
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -30,8 +30,7 @@ public class Main {
     }
 
     public static void testData() {
-        Contact contact = new Contact();
-        contact.setName("Ivan");
+        Contact contact = new Contact("Ivan");
         contacts.add(contact);
     }
 }

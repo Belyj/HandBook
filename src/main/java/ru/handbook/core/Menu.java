@@ -1,4 +1,7 @@
 package ru.handbook.core;
+import ru.handbook.model.Contact;
+import ru.handbook.model.Group;
+
 import static ru.handbook.core.Main.flag;
 import static ru.handbook.core.Main.contacts;
 import static ru.handbook.core.Main.groups;
@@ -60,7 +63,7 @@ public class Menu {
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getName().equals(name)) {
+            if (contacts.get(i).getContactName().equals(name)) {
                 contacts.get(i).getContactInfo();
                 return;
             }
@@ -72,8 +75,7 @@ public class Menu {
         System.out.println("Entery name of new contact");
         String name = scanner.nextLine();
         if (!name.equals("")) {
-            Contact contact = new Contact();
-            contact.setName(name);
+            Contact contact = new Contact(name);
             contacts.add(contact);
             System.out.println(name + " was created");
         } else System.out.println("Name can not be empty");
@@ -84,7 +86,7 @@ public class Menu {
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getName().equals(name)) {
+            if (contacts.get(i).getContactName().equals(name)) {
                 System.out.println("Entery new name");
                 String newName = scanner.nextLine();
                 contacts.get(i).setName(newName);
@@ -97,9 +99,8 @@ public class Menu {
                 System.out.println("Entery new mail");
                 quest = scanner.nextLine();
                 contacts.get(i).setMail(quest);
-                int newLenght = contacts.size();
-                for (int j = 0; j < newLenght; j++) {
-                    if (contacts.get(j).getName().equals(newName)) {
+                for (int j = 0; j < length; j++) {
+                    if (contacts.get(j).getContactName().equals(newName)) {
                         contacts.get(j).getContactInfo();
                         return;
                     }
@@ -114,7 +115,7 @@ public class Menu {
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getName().equals(name)) {
+            if (contacts.get(i).getContactName().equals(name)) {
                 contacts.remove(i);
             }
         }
@@ -125,94 +126,123 @@ public class Menu {
         System.out.println("Entery group name");
         String groupName = scanner.nextLine();
         System.out.println(groupName + ":\n");
-        if (!groups.get(groupName).isEmpty()) {
-            for (Contact contact : groups.get(groupName)) {
-                contact.getContactInfo();
+        int length = groups.size();
+        for (int i = 0; i < length; i++) {
+            if (groups.get(i).getGroupName().equals(groupName)) {
+                groups.get(i).getGroupInfo();
+                return;
             }
-        } else System.out.println("Group " + groupName + " is empty");
+        }
+        System.out.println("Group " + groupName + " is empty");
     }
 
     public void createGroup() {
         System.out.println("Entery group name");
         String groupName = scanner.nextLine();
-        if (!groups.containsKey(groupName)) {
-            groups.put(groupName, new ArrayList<Contact>());
-        } else System.out.println("Group " + groupName + " is exist");
+        groups.add(new Group(groupName));
     }
 
     public void addInGroup() {
-        System.out.println("Entery group name");
-        String groupName = scanner.nextLine();
-        if (!groups.containsKey(groupName)) {
-            groups.put(groupName, new ArrayList<Contact>());
-            System.out.println("Group " + groupName + " was created");
-        }
         System.out.println("Entery contact name");
-        String name = scanner.nextLine();
-        int length = contacts.size();
-        for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getName().equals(name)) {
-                contacts.get(i).getGroups().add(groupName);
-                groups.get(groupName).add(contacts.get(i));
+        String contactName = scanner.nextLine();
+        int contactsLength = contacts.size();
+        for (int i = 0; i < contactsLength; i++) {
+            if (contacts.get(i).getContactName().equals(contactName)) {
+                System.out.println("Entery group name");
+                String groupName = scanner.nextLine();
+                int groupsLenght = groups.size();
+                for (int j = 0; j < groupsLenght; j++) {
+                    if (groups.get(j).getGroupName().equals(groupName)) {
+                        groups.get(j).setGroupContact(contacts.get(i).getContactName());
+                        contacts.get(i).setContactGroup(groups.get(j).getGroupName());
+                        System.out.println("Contact was add to the " + groupName + " group");
+                        return;
+                    }
+                }
+                System.out.println("Group " + groupName + " does not exist");
+                return;
             }
         }
-        System.out.println("Contact was add to the " + groupName + " group");
+        System.out.println("Contact " + contactName + "does not exist");
+        return;
     }
 
     public void deleteFromGroup() {
-        System.out.println("Entery group name");
-        String groupName = scanner.nextLine();
         System.out.println("Entery contact name");
-        String name = scanner.nextLine();
-        int length = contacts.size();
-        for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getName().equals(name)) {
-                length = contacts.get(i).getGroups().size();
-                for (int j = 0; j < length; j++) {
-                    if (groups.get(groupName).get(j).equals(name)) {
-                        groups.get(groupName).get(j).removeFromGroup(groupName);
-                        groups.get(groupName).remove(j);
+        String contactName = scanner.nextLine();
+        int contactsLength = contacts.size();
+        for (int i = 0; i < contactsLength; i++) {
+            if (contacts.get(i).getContactName().equals(contactName)) {
+                System.out.println("Entery group name");
+                String groupName = scanner.nextLine();
+                int groupsLength = groups.size();
+                for (int j = 0; j < groupsLength; j++) {
+                    if (groups.get(j).getGroupName().equals(groupName)) {
+                        groups.get(j).removeContact(contactName);
+                        contacts.get(i).removeGroup(groupName);
+                        return;
                     }
                 }
+                System.out.println("Group " + groupName + " does not exist");
+                return;
             }
         }
-        System.out.println("Contact wa removed from " + groupName);
+        System.out.println("Contact " + contactName + " does not exist");
     }
 
     public void checkContacts() {
-        if (contacts.isEmpty()) {
-            System.out.println("Have not any contacts");
-        } else {
-            for (Contact contact : contacts) {
-                contact.getContactInfo();
-            }
+        int contactsLength = contacts.size();
+        for (int i = 0; i < contactsLength; i++) {
+            contacts.get(i).getContactInfo();
         }
     }
 
     public void checkGroups() {
-        for (String key : groups.keySet()) {
-            System.out.println(key);
+        int groupsLength = groups.size();
+        for (int i = 0; i < groupsLength; i++) {
+            groups.get(i).getGroupInfo();
         }
     }
 
     public void deleteGroup() {
         System.out.println("Entery name of group");
         String groupname = scanner.nextLine();
-        groups.remove(groupname);
+        int grouopLength = groups.size();
+        for (int i = 0; i < grouopLength; i++) {
+            if (groups.get(i).getGroupName().equals(groupname)) {
+                groups.remove(i);
+                int contatsLength = contacts.size();
+                for (int j = 0; j < contatsLength; j++) {
+                    Contact contact = contacts.get(i);
+                    int contactGroupsLength = contact.getGroups().size();
+                    for (int k = 0; k < contactGroupsLength; k++) {
+                        if (contact.getGroups().get(k).equals(groupname)) {
+                            contact.removeGroup(contact.getGroups().get(k));
+                            return;
+                        }
+                    }
+                }
+            }
+        }
         System.out.println("Group " + groupname + " was removed");
     }
 
     public void updateGroup() {
         System.out.println("Entery name of group");
         String groupname = scanner.nextLine();
-        System.out.println("Entery new group name");
-        String newGroupName = scanner.nextLine();
-        groups.put(newGroupName, (ArrayList<Contact>) groups.get(groupname).clone());
-        groups.remove(groupname);
-        System.out.println("Whant you change a contacts? (y)");
-        String answer = scanner.nextLine();
-        if (answer.equals("y")) {
-            updateContact();
+        int groupLength = groups.size();
+        for (int i = 0; i < groupLength; i++) {
+            if (groups.get(i).getGroupName().equals(groupname)) {
+                System.out.println("Entery new group name");
+                String newGroupName = scanner.nextLine();
+                groups.add(new Group(newGroupName));
+                for (int j = 0; j < groupLength; j++) {
+                    if (groups.get(j).getGroupName().equals(newGroupName)) {
+                        groups.get(j).getGroupContacts().addAll(groups.get(i).getGroupContacts());
+                        groups.remove(i);
+                    }
+                }
+            }
         }
     }
 }

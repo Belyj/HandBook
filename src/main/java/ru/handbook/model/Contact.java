@@ -1,4 +1,4 @@
-package ru.handbook.core;
+package ru.handbook.model;
 
 import java.util.ArrayList;
 
@@ -7,14 +7,18 @@ import java.util.ArrayList;
  */
 public class Contact {
 
-    private String name;
+    private String contactName;
     private String telephone;
     private String skype;
     private String mail;
-    private ArrayList<String> groups;
+    private ArrayList<String> contactGroups;
+
+    public Contact(String name) {
+        this.contactName = name;
+    }
 
     public void setName(String name) {
-        this.name = name;
+        this.contactName = name;
     }
 
     public void setTelephone(String telephone) {
@@ -29,8 +33,8 @@ public class Contact {
         this.mail = mail;
     }
 
-    public void setGroups(ArrayList<String> groups) {
-        this.groups = groups;
+    public void setContactGroup(String groupName) {
+        contactGroups.add(groupName);
     }
 
     public void delete() {
@@ -38,28 +42,28 @@ public class Contact {
     }
 
     public void addInGroup(String groupName) {
-        groups.add(groupName);
+        contactGroups.add(groupName);
     }
 
-    public void removeFromGroup(String groupName) {
-        groups.remove(groupName);
+    public void removeGroup(String groupName) {
+        contactGroups.remove(groupName);
     }
 
     public void getContactInfo() {
-        System.out.println("Name: " + getName() +
+        System.out.println("Name: " + getContactName() +
                             "\ntelehpone: " + getTelephone() +
                             "\nskype: " + getSkype() +
                             "\nmail: " + getMail() + "\n");
         System.out.println("Group list");
-        if (groups != null) {
-            for (String group : groups) {
+        if (contactGroups != null) {
+            for (String group : contactGroups) {
                 System.out.println(group);
             }
         } else System.out.println();
     }
 
-    public String getName() {
-        return name;
+    public String getContactName() {
+        return contactName;
     }
 
     public String getTelephone() {
@@ -75,6 +79,6 @@ public class Contact {
     }
 
     public ArrayList<String> getGroups() {
-        return groups;
+        return contactGroups;
     }
 }
