@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * Created by operator1 on 12.07.2017.
  */
 public class Menu {
-    public void comand(int comand) {
-        switch (comand) {
+    public void command(int command) {
+        switch (command) {
             case (0):
                 searchContact();
                 break;
@@ -48,10 +48,10 @@ public class Menu {
                 updateGroup();
                 break;
             case (12):
-                System.out.println("Exit from programm");
+                System.out.println("Exit from program");
                 flag = false;
             default:
-                System.out.println("Handbook have not comand: " + comand);
+                System.out.println("Handbook have not command: " + command);
         }
     }
 
@@ -62,17 +62,21 @@ public class Menu {
         for (int i = 0; i < length; i++) {
             if (contacts.get(i).getName().equals(name)) {
                 contacts.get(i).getContactInfo();
+                return;
             }
         }
+        System.out.println("Contact " + name + " does not exist");
     }
 
     public void createContact() {
         System.out.println("Entery name of new contact");
         String name = scanner.nextLine();
-        Contact contact = new Contact();
-        contact.setName(name);
-        contacts.add(contact);
-        System.out.println(name + " was created");
+        if (!name.equals("")) {
+            Contact contact = new Contact();
+            contact.setName(name);
+            contacts.add(contact);
+            System.out.println(name + " was created");
+        } else System.out.println("Name can not be empty");
     }
 
     public void updateContact() {
@@ -82,18 +86,27 @@ public class Menu {
         for (int i = 0; i < length; i++) {
             if (contacts.get(i).getName().equals(name)) {
                 System.out.println("Entery new name");
-                String quest = scanner.nextLine();
-                contacts.get(i).setName(quest);
+                String newName = scanner.nextLine();
+                contacts.get(i).setName(newName);
                 System.out.println("Entery new telephone");
-                quest = scanner.nextLine();
+                String quest = scanner.nextLine();
                 contacts.get(i).setTelephone(quest);
                 System.out.println("Entery new skype");
                 quest = scanner.nextLine();
                 contacts.get(i).setSkype(quest);
                 System.out.println("Entery new mail");
+                quest = scanner.nextLine();
                 contacts.get(i).setMail(quest);
-            } else System.out.println("Handbook have not: " + name);
+                int newLenght = contacts.size();
+                for (int j = 0; j < newLenght; j++) {
+                    if (contacts.get(j).getName().equals(newName)) {
+                        contacts.get(j).getContactInfo();
+                        return;
+                    }
+                }
+            }
         }
+        System.out.println("Contact " + name + " does not exist");
     }
 
     public void deleteContact() {
