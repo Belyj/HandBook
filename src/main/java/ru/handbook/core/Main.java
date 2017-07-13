@@ -32,5 +32,7 @@ public class Main {
     public static void testData() {
         Contact contact = new Contact("Ivan");
         contacts.add(contact);
+        Group group = new Group("Friends");
+        groups.add(group);
     }
 }

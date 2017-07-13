@@ -11,7 +11,6 @@ public class Contact {
     private String telephone;
     private String skype;
     private String mail;
-    private ArrayList<String> contactGroups;
 
     public Contact(String name) {
         this.contactName = name;
@@ -33,33 +32,11 @@ public class Contact {
         this.mail = mail;
     }
 
-    public void setContactGroup(String groupName) {
-        contactGroups.add(groupName);
-    }
-
-    public void delete() {
-
-    }
-
-    public void addInGroup(String groupName) {
-        contactGroups.add(groupName);
-    }
-
-    public void removeGroup(String groupName) {
-        contactGroups.remove(groupName);
-    }
-
     public void getContactInfo() {
         System.out.println("Name: " + getContactName() +
-                            "\ntelehpone: " + getTelephone() +
-                            "\nskype: " + getSkype() +
-                            "\nmail: " + getMail() + "\n");
-        System.out.println("Group list");
-        if (contactGroups != null) {
-            for (String group : contactGroups) {
-                System.out.println(group);
-            }
-        } else System.out.println();
+                "\ntelehpone: " + getTelephone() +
+                "\nskype: " + getSkype() +
+                "\nmail: " + getMail() + "\n");
     }
 
     public String getContactName() {
@@ -76,9 +53,5 @@ public class Contact {
 
     public String getMail() {
         return mail;
-    }
-
-    public ArrayList<String> getGroups() {
-        return contactGroups;
     }
 }

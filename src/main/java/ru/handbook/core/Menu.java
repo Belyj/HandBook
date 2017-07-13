@@ -1,4 +1,5 @@
 package ru.handbook.core;
+
 import ru.handbook.model.Contact;
 import ru.handbook.model.Group;
 
@@ -6,6 +7,7 @@ import static ru.handbook.core.Main.flag;
 import static ru.handbook.core.Main.contacts;
 import static ru.handbook.core.Main.groups;
 import static ru.handbook.core.Main.scanner;
+
 import java.util.ArrayList;
 
 /**
@@ -112,11 +114,20 @@ public class Menu {
 
     public void deleteContact() {
         System.out.println("Entery name of deleted contact");
-        String name = scanner.nextLine();
-        int length = contacts.size();
-        for (int i = 0; i < length; i++) {
-            if (contacts.get(i).getContactName().equals(name)) {
-                contacts.remove(i);
+        String contactName = scanner.nextLine();
+        int lengthContacts = contacts.size();
+        for (int i = 0; i < lengthContacts; i++) {
+            if (contacts.get(i).getContactName().equals(contactName)) {
+                int groupsLength = groups.size();
+                for (int j = 0; j < groupsLength; j++) {
+                    int groupContactsLength = groups.get(j).getGroupContacts().size();
+                    for (int k = 0; k < groupContactsLength; k++) {
+                        if (groups.get(j).getGroupContacts().get(k).getContactName().equals(contactName)) {
+                            groups.get(j).getGroupContacts().remove(k);
+                            contacts.remove(i);
+                        }
+                    }
+                }
             }
         }
         System.out.println("Contact was removed");
@@ -153,8 +164,7 @@ public class Menu {
                 int groupsLenght = groups.size();
                 for (int j = 0; j < groupsLenght; j++) {
                     if (groups.get(j).getGroupName().equals(groupName)) {
-                        groups.get(j).setGroupContact(contacts.get(i).getContactName());
-                        contacts.get(i).setContactGroup(groups.get(j).getGroupName());
+                        groups.get(j).setGroupContact(contacts.get(i));
                         System.out.println("Contact was add to the " + groupName + " group");
                         return;
                     }
@@ -179,7 +189,6 @@ public class Menu {
                 for (int j = 0; j < groupsLength; j++) {
                     if (groups.get(j).getGroupName().equals(groupName)) {
                         groups.get(j).removeContact(contactName);
-                        contacts.get(i).removeGroup(groupName);
                         return;
                     }
                 }
@@ -211,17 +220,6 @@ public class Menu {
         for (int i = 0; i < grouopLength; i++) {
             if (groups.get(i).getGroupName().equals(groupname)) {
                 groups.remove(i);
-                int contatsLength = contacts.size();
-                for (int j = 0; j < contatsLength; j++) {
-                    Contact contact = contacts.get(i);
-                    int contactGroupsLength = contact.getGroups().size();
-                    for (int k = 0; k < contactGroupsLength; k++) {
-                        if (contact.getGroups().get(k).equals(groupname)) {
-                            contact.removeGroup(contact.getGroups().get(k));
-                            return;
-                        }
-                    }
-                }
             }
         }
         System.out.println("Group " + groupname + " was removed");
