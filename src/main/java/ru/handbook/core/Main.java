@@ -5,7 +5,6 @@ import ru.handbook.model.Group;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +12,7 @@ import java.util.Scanner;
  * Created by asus on 11.07.2017.
  */
 public class Main {
-    public  static Serialize serialize;
+    public  static Serial serialize;
     static Menu menu = new Menu();
     public static boolean flag = true;
     public static List<Contact> contacts = new ArrayList();
@@ -21,7 +20,8 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        testData();
+        //testData();
+        deSerialize();
         while (flag) {
             System.out.println("Entery #comand");
             System.out.println("0: searchContact\n 1: createContact\n 2: changeContact\n 3: deleteContact\n 4: searchGroup\n 5: createGroup\n 6: addInGroup\n 7: deleteFromGroup\n 8: checkContacts\n 9: checkGroups\n 10: deleteGroup\n 11: updateGroup\n 12: exitProgram");
@@ -33,41 +33,87 @@ public class Main {
     }
 
     private static void serialize() {
-        serialize = new Serialize();
-        serialize.getObjects().add(contacts);
-        serialize.getObjects().add(groups);
+        serialize = new Serial();
+        int contactsLength = contacts.size();
+        for (int i = 0; i < contactsLength; i++) {
+            serialize.getContacts().add(contacts.get(i));
+        }
+        int groupsLength = groups.size();
+        for (int i = 0; i < groupsLength; i++) {
+            serialize.getGroups().add(groups.get(i));
+        }
         try {
-            createObjectOutputStream().writeObject(serialize);
-            System.out.println("Serialize successfully");
+            createOOS().writeObject(serialize);
+            System.out.println("Serializing is success");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static ObjectOutputStream createObjectOutputStream() {
+    public static void deSerialize() {
+        ObjectInputStream objectInputStream = createOIS();
         try {
-            System.out.println("Creating ObjectOutputStream...");
-            return new ObjectOutputStream(createFileOutputStream());
+            Serial serial = (Serial) objectInputStream.readObject();
+            int serialContactsLength = serial.getContacts().size();
+            for (int i = 0; i < serialContactsLength; i++) {
+                contacts.add(serial.getContacts().get(i));
+            }
+            int serialGroupLength = serial.getGroups().size();
+            for (int i = 0; i < serialGroupLength; i++) {
+                groups.add(serial.getGroups().get(i));
+            }
+            System.out.println("Read file success");
         } catch (IOException e) {
-            createFileOutputStream();
-            createObjectOutputStream();
+            deSerialize();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Handbook have not component for reading file");
         }
-        return createObjectOutputStream();
     }
 
-    private static FileOutputStream createFileOutputStream() {
+    public static ObjectInputStream createOIS() {
+        try {
+            System.out.println("Creating ObjectInputStream...");
+            return new ObjectInputStream(createFIS());
+        } catch (IOException e) {
+            createOIS();
+        }
+        return createOIS();
+    }
+
+    public static FileInputStream createFIS() {
+        try {
+            System.out.println("Creating FileInputStream...");
+            return new FileInputStream("temp.out");
+        } catch (FileNotFoundException e) {
+            createFile();
+        }
+        return createFIS();
+    }
+
+    private static ObjectOutputStream createOOS() {
+        try {
+            System.out.println("Creating ObjectOutputStream...");
+            return new ObjectOutputStream(createFOS());
+        } catch (IOException e) {
+            createOOS();
+        }
+        return createOOS();
+    }
+
+    private static FileOutputStream createFOS() {
         try {
             System.out.println("Creating FileOutputStream...");
             return  new FileOutputStream("temp.out");
         } catch (FileNotFoundException e) {
             createFile();
-            createFileOutputStream();
+            createFOS();
         }
-        return createFileOutputStream();
+        return createFOS();
     }
 
     private static File createFile() {
         String path = new File("").getAbsolutePath();
+        System.out.println("Creating file for serialization...");
         return new File(path + "temp.out");
     }
 
