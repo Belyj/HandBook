@@ -57,6 +57,7 @@ public class Menu implements Serializable {
             case (12):
                 System.out.println("Exit from program");
                 flag = false;
+                break;
             default:
                 System.out.println("Handbook have not command: " + command);
         }

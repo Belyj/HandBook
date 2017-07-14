@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Created by asus on 11.07.2017.
  */
 public class Main {
-    private static List<Object> classes = new ArrayList();
+    public  static Serialize serialize;
     static Menu menu = new Menu();
     public static boolean flag = true;
     public static List<Contact> contacts = new ArrayList();
@@ -21,7 +21,6 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        //File file = new File("temp.out");
         testData();
         while (flag) {
             System.out.println("Entery #comand");
@@ -30,18 +29,46 @@ public class Main {
                 menu.command(Integer.parseInt(scanner.nextLine()));
             } else throw new NotCorrectCommandException("Command must be integer");
         }
-        //serialize();
+        serialize();
     }
 
     private static void serialize() {
-        classes.add(contacts);
-        classes.add(groups);
+        serialize = new Serialize();
+        serialize.getObjects().add(contacts);
+        serialize.getObjects().add(groups);
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("temp.out");
-            //fileOutputStream.write(classes);
-        } catch (FileNotFoundException e) {
+            createObjectOutputStream().writeObject(serialize);
+            System.out.println("Serialize successfully");
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static ObjectOutputStream createObjectOutputStream() {
+        try {
+            System.out.println("Creating ObjectOutputStream...");
+            return new ObjectOutputStream(createFileOutputStream());
+        } catch (IOException e) {
+            createFileOutputStream();
+            createObjectOutputStream();
+        }
+        return createObjectOutputStream();
+    }
+
+    private static FileOutputStream createFileOutputStream() {
+        try {
+            System.out.println("Creating FileOutputStream...");
+            return  new FileOutputStream("temp.out");
+        } catch (FileNotFoundException e) {
+            createFile();
+            createFileOutputStream();
+        }
+        return createFileOutputStream();
+    }
+
+    private static File createFile() {
+        String path = new File("").getAbsolutePath();
+        return new File(path + "temp.out");
     }
 
     public static void testData() {
