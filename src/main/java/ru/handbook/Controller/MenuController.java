@@ -13,8 +13,9 @@ import static ru.handbook.core.Main.scanner;
  */
 public class MenuController {
     Messenger messenger = new Messenger();
+
     public void searchContact() {
-        messenger.contactNameRequest();
+        messenger.nameRequest("contact");
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
@@ -23,27 +24,27 @@ public class MenuController {
                 return;
             }
         }
-        messenger.contactNameNonexistent(name);
+        messenger.nameNonexistent(name);
     }
 
     public void createContact() {
-        messenger.contactNameRequest();
+        messenger.nameRequest("contact");
         String name = scanner.nextLine();
         if (!name.equals("")) {
             int contactsLength = contacts.size();
             for (int i = 0; i < contactsLength; i++) {
                 if (contacts.get(i).getContactName().equals(name)) {
-                    System.out.println("This is name is busy");
+                    messenger.nameIsBusy(name);
                     return;
                 }
             }
             contacts.add(new Contact(name));
-            System.out.println(name + " was created");
-        } else System.out.println("Name can not be empty");
+            messenger.createSuccess(name);
+        } else messenger.emptyName(name);
     }
 
     public void updateContact() {
-        messenger.contactNameRequest();
+        messenger.nameRequest("contact");
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
@@ -52,44 +53,44 @@ public class MenuController {
                 String yn = scanner.nextLine();
                 String newName = "";
                 if (yn.equals("y")) {
-                    System.out.println("Entery new name");
-                     newName= scanner.nextLine();
-                    for (int j = 0; j < length; j++) {
-                        if (!contacts.get(j).getContactName().equals(newName)) {
-                            contacts.get(j).setContactName(newName);
-                        } else System.out.println("This name is busy");
+                    messenger.newNameRequest("contact");
+                    newName = scanner.nextLine();
+                    if (!newName.equals("")) {
+                        for (int j = 0; j < length; j++) {
+                            if (!contacts.get(j).getContactName().equals(newName)) {
+                                contacts.get(j).setContactName(newName);
+                            } else {
+                                messenger.nameIsBusy(newName);
+                                return;
+                            }
+                        }
+                    } else {
+                        messenger.emptyName(newName);
+                        return;
                     }
                 }
-                System.out.println("Entery new telephone");
+                messenger.newDataRequest("telephone");
                 String quest = scanner.nextLine();
                 contacts.get(i).setTelephone(quest);
-                System.out.println("Entery new skype");
+                messenger.newDataRequest("skype");
                 quest = scanner.nextLine();
                 contacts.get(i).setSkype(quest);
-                System.out.println("Entery new mail");
+                messenger.newDataRequest("mail");
                 quest = scanner.nextLine();
                 contacts.get(i).setMail(quest);
-                if (!newName.equals("")) {
-                    for (int j = 0; j < length; j++) {
-                        if (contacts.get(j).getContactName().equals(newName)) {
-                            contacts.get(j).getContactInfo();
-                            return;
-                        }
-                    }
-                }
                 for (int j = 0; j < length; j++) {
-                    if (contacts.get(j).getContactName().equals(name)) {
+                    if (contacts.get(j).getContactName().equals(newName)) {
                         contacts.get(j).getContactInfo();
                         return;
                     }
                 }
             }
         }
-        messenger.contactNameNonexistent(name);
+        messenger.nameNonexistent(name);
     }
 
     public void deleteContact() {
-        messenger.contactNameRequest();
+        messenger.nameRequest("contact");
         String contactName = scanner.nextLine();
         int lengthContacts = contacts.size();
         for (int i = 0; i < lengthContacts; i++) {
@@ -101,18 +102,18 @@ public class MenuController {
                         if (groups.get(j).getGroupContacts().get(k).getContactName().equals(contactName)) {
                             groups.get(j).getGroupContacts().remove(k);
                             contacts.remove(i);
-                            System.out.println("Contact was removed");
+                            messenger.removeSuccess(contactName);
                             return;
                         }
                     }
                 }
             }
         }
-        messenger.contactNameNonexistent(contactName);
+        messenger.nameNonexistent(contactName);
     }
 
     public void searchGroup() {
-        messenger.groupNameRequest();
+        messenger.nameRequest("group");
         String groupName = scanner.nextLine();
         System.out.println(groupName + ":\n");
         int length = groups.size();
@@ -122,50 +123,59 @@ public class MenuController {
                 return;
             }
         }
-        messenger.groupNameRequest();
+        messenger.nameNonexistent(groupName);
     }
 
     public void createGroup() {
-        messenger.groupNameRequest();
+        messenger.nameRequest("group");
         String groupName = scanner.nextLine();
         if (!groupName.equals("")) {
+            int groupsLength = groups.size();
+            for (int i = 0; i < groupsLength; i++) {
+                if (groups.get(i).getGroupName().equals(groupName)) {
+                    messenger.nameIsBusy(groupName);
+                    return;
+                }
+            }
             groups.add(new Group(groupName));
-            System.out.println("Group " + groupName + " was created");
-        } else System.out.println("Name can not be empty");
+            messenger.createSuccess(groupName);
+        } else {
+            messenger.emptyName(groupName);
+        }
     }
 
     public void addInGroup() {
-        messenger.contactNameRequest();
+        messenger.nameRequest("contact");
         String contactName = scanner.nextLine();
         int contactsLength = contacts.size();
         for (int i = 0; i < contactsLength; i++) {
             if (contacts.get(i).getContactName().equals(contactName)) {
-                messenger.groupNameRequest();
+                messenger.nameRequest("group");
                 String groupName = scanner.nextLine();
                 int groupsLenght = groups.size();
                 for (int j = 0; j < groupsLenght; j++) {
                     if (groups.get(j).getGroupName().equals(groupName)) {
                         groups.get(j).setGroupContact(contacts.get(i));
                         contacts.get(i).setContactGroups(groupName);
-                        System.out.println("Contact was add to the " + groupName + " group");
+                        messenger.addGroupSuccess(contactName, groupName);
                         return;
                     }
                 }
-                messenger.groupNameNonexistent(groupName);
+                messenger.nameNonexistent(groupName);
                 return;
             }
         }
-        messenger.contactNameNonexistent(contactName);
+        messenger.nameNonexistent(contactName);
         return;
     }
 
     public void deleteFromGroup() {
-        messenger.contactNameRequest();
+        messenger.nameRequest("contact");
         String contactName = scanner.nextLine();
         int contactsLength = contacts.size();
         for (int i = 0; i < contactsLength; i++) {
             if (contacts.get(i).getContactName().equals(contactName)) {
-                messenger.groupNameRequest();
+                messenger.nameRequest("group");
                 String groupName = scanner.nextLine();
                 int groupsLength = groups.size();
                 for (int j = 0; j < groupsLength; j++) {
@@ -175,75 +185,79 @@ public class MenuController {
                             if (contacts.get(i).getContactGroups().get(k).equals(groupName)) {
                                 contacts.get(i).getContactGroups().remove(k);
                                 groups.get(j).removeContact(contactName);
-                                System.out.println("Contact " + contactName + " removed from group " + groupName);
+                                messenger.removeGroupSuccess(contactName, groupName);
                                 return;
                             }
                         }
                     }
                 }
-                messenger.groupNameNonexistent(groupName);
+                messenger.nameNonexistent(groupName);
                 return;
             }
         }
-        messenger.contactNameNonexistent(contactName);
+        messenger.nameNonexistent(contactName);
     }
 
     public void checkContacts() {
         int contactsLength = contacts.size();
-        for (int i = 0; i < contactsLength; i++) {
-            contacts.get(i).getContactInfo();
-        }
+        if (contacts.get(0).getContactName() != null) {
+            for (int i = 0; i < contactsLength; i++) {
+                contacts.get(i).getContactInfo();
+            }
+        } else messenger.emptyList("Contact");
     }
 
     public void checkGroups() {
         int groupsLength = groups.size();
-        for (int i = 0; i < groupsLength; i++) {
-            groups.get(i).getGroupInfo();
-        }
+        if (groups.get(0).getGroupName() != null) {
+            for (int i = 0; i < groupsLength; i++) {
+                groups.get(i).getGroupInfo();
+            }
+        } else messenger.emptyList("Group");
     }
 
     public void deleteGroup() {
-        messenger.groupNameRequest();
-        String groupname = scanner.nextLine();
+        messenger.nameRequest("group");
+        String groupName = scanner.nextLine();
         int groupLength = groups.size();
         for (int i = 0; i < groupLength; i++) {
-            if (groups.get(i).getGroupName().equals(groupname)) {
+            if (groups.get(i).getGroupName().equals(groupName)) {
                 int groupContactsLength = groups.get(i).getGroupContacts().size();
                 for (int j = 0; j < groupContactsLength; j++) {
                     int contactGroupsLength = groups.get(i).getGroupContacts().get(j).getContactGroups().size();
                     for (int k = 0; k < contactGroupsLength; k++) {
-                        if (groups.get(i).getGroupContacts().get(j).getContactGroups().get(k).equals(groupname)) {
+                        if (groups.get(i).getGroupContacts().get(j).getContactGroups().get(k).equals(groupName)) {
                             groups.get(i).getGroupContacts().get(j).getContactGroups().remove(k);
                             groups.remove(i);
-                            System.out.println("Group " + groupname + " was removed");
+                            messenger.removeSuccess(groupName);
                             return;
                         }
                     }
                 }
             }
         }
-        System.out.println("Group " + groupname + " does not exist");
+        messenger.nameNonexistent(groupName);
     }
 
     public void updateGroup() {
-        messenger.groupNameRequest();
-        String groupname = scanner.nextLine();
+        messenger.nameRequest("group");
+        String groupName = scanner.nextLine();
         int groupLength = groups.size();
         for (int i = 0; i < groupLength; i++) {
-            if (groups.get(i).getGroupName().equals(groupname)) {
-                System.out.println("Entery new group name");
+            if (groups.get(i).getGroupName().equals(groupName)) {
+                messenger.newNameRequest("contact");
                 String newGroupName = scanner.nextLine();
                 groups.add(new Group(newGroupName));
                 for (int j = 0; j < groupLength; j++) {
                     if (groups.get(j).getGroupName().equals(newGroupName)) {
                         groups.get(j).getGroupContacts().addAll(groups.get(i).getGroupContacts());
                         groups.remove(i);
-                        System.out.println("Group was updated");
+                        messenger.updateSuccess(groupName);
                         return;
                     }
                 }
             }
         }
-        System.out.println("Group" + groupname + " does not exist");
+        messenger.nameNonexistent(groupName);
     }
 }
