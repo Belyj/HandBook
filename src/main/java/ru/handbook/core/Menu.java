@@ -91,7 +91,7 @@ public class Menu implements Serializable {
             if (contacts.get(i).getContactName().equals(name)) {
                 System.out.println("Entery new name");
                 String newName = scanner.nextLine();
-                contacts.get(i).setName(newName);
+                contacts.get(i).setContactName(newName);
                 System.out.println("Entery new telephone");
                 String quest = scanner.nextLine();
                 contacts.get(i).setTelephone(quest);
@@ -165,6 +165,7 @@ public class Menu implements Serializable {
                 for (int j = 0; j < groupsLenght; j++) {
                     if (groups.get(j).getGroupName().equals(groupName)) {
                         groups.get(j).setGroupContact(contacts.get(i));
+                        contacts.get(i).setContactGroups(groupName);
                         System.out.println("Contact was add to the " + groupName + " group");
                         return;
                     }
@@ -188,8 +189,15 @@ public class Menu implements Serializable {
                 int groupsLength = groups.size();
                 for (int j = 0; j < groupsLength; j++) {
                     if (groups.get(j).getGroupName().equals(groupName)) {
-                        groups.get(j).removeContact(contactName);
-                        return;
+                        int contactGroupsLength = contacts.get(i).getContactGroups().size();
+                        for (int k = 0; k < contactGroupsLength; k++) {
+                            if (contacts.get(i).getContactGroups().get(k).equals(groupName)) {
+                                contacts.get(i).getContactGroups().remove(k);
+                                groups.get(j).removeContact(contactName);
+                                System.out.println("Contact " + contactName + " removed from group " + groupName);
+                                return;
+                            }
+                        }
                     }
                 }
                 System.out.println("Group " + groupName + " does not exist");
@@ -216,13 +224,23 @@ public class Menu implements Serializable {
     public void deleteGroup() {
         System.out.println("Entery name of group");
         String groupname = scanner.nextLine();
-        int grouopLength = groups.size();
-        for (int i = 0; i < grouopLength; i++) {
+        int groupLength = groups.size();
+        for (int i = 0; i < groupLength; i++) {
             if (groups.get(i).getGroupName().equals(groupname)) {
-                groups.remove(i);
+                int groupContactsLength = groups.get(i).getGroupContacts().size();
+                for (int j = 0; j < groupContactsLength; j++) {
+                    int contactGroupsLength = groups.get(i).getGroupContacts().get(j).getContactGroups().size();
+                    for (int k = 0; k < contactGroupsLength; k++) {
+                        if (groups.get(i).getGroupContacts().get(j).getContactGroups().get(k).equals(groupname)) {
+                            groups.get(i).getGroupContacts().get(j).getContactGroups().remove(k);
+                            groups.remove(i);
+                            System.out.println("Group " + groupname + " was removed");
+                        }
+                    }
+                }
             }
         }
-        System.out.println("Group " + groupname + " was removed");
+        System.out.println("Group " + groupname + " does not exist");
     }
 
     public void updateGroup() {

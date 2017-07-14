@@ -21,7 +21,7 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        File file = new File("temp.out");
+        //File file = new File("temp.out");
         testData();
         while (flag) {
             System.out.println("Entery #comand");
@@ -30,16 +30,15 @@ public class Main {
                 menu.command(Integer.parseInt(scanner.nextLine()));
             } else throw new NotCorrectCommandException("Command must be integer");
         }
-        serialize();
+        //serialize();
     }
 
     private static void serialize() {
-        classes.add(menu);
         classes.add(contacts);
         classes.add(groups);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("temp.out");
-            fileOutputStream.write(classes);
+            //fileOutputStream.write(classes);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
