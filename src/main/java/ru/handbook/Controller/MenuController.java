@@ -1,5 +1,6 @@
 package ru.handbook.Controller;
 
+import ru.handbook.core.Messenger;
 import ru.handbook.model.Contact;
 import ru.handbook.model.Group;
 
@@ -11,8 +12,9 @@ import static ru.handbook.core.Main.scanner;
  * Created by operator1 on 14.07.2017.
  */
 public class MenuController {
+    Messenger messenger = new Messenger();
     public void searchContact() {
-        System.out.println("Entery contact name");
+        messenger.contactNameRequest();
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
@@ -21,28 +23,43 @@ public class MenuController {
                 return;
             }
         }
-        System.out.println("Contact " + name + " does not exist");
+        messenger.contactNameNonexistent(name);
     }
 
     public void createContact() {
-        System.out.println("Entery name of new contact");
+        messenger.contactNameRequest();
         String name = scanner.nextLine();
         if (!name.equals("")) {
-            Contact contact = new Contact(name);
-            contacts.add(contact);
+            int contactsLength = contacts.size();
+            for (int i = 0; i < contactsLength; i++) {
+                if (contacts.get(i).getContactName().equals(name)) {
+                    System.out.println("This is name is busy");
+                    return;
+                }
+            }
+            contacts.add(new Contact(name));
             System.out.println(name + " was created");
         } else System.out.println("Name can not be empty");
     }
 
     public void updateContact() {
-        System.out.println("Entery contact name");
+        messenger.contactNameRequest();
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
             if (contacts.get(i).getContactName().equals(name)) {
-                System.out.println("Entery new name");
-                String newName = scanner.nextLine();
-                contacts.get(i).setContactName(newName);
+                System.out.println("Would you update name? y/n");
+                String yn = scanner.nextLine();
+                String newName = "";
+                if (yn.equals("y")) {
+                    System.out.println("Entery new name");
+                     newName= scanner.nextLine();
+                    for (int j = 0; j < length; j++) {
+                        if (!contacts.get(j).getContactName().equals(newName)) {
+                            contacts.get(j).setContactName(newName);
+                        } else System.out.println("This name is busy");
+                    }
+                }
                 System.out.println("Entery new telephone");
                 String quest = scanner.nextLine();
                 contacts.get(i).setTelephone(quest);
@@ -52,19 +69,27 @@ public class MenuController {
                 System.out.println("Entery new mail");
                 quest = scanner.nextLine();
                 contacts.get(i).setMail(quest);
+                if (!newName.equals("")) {
+                    for (int j = 0; j < length; j++) {
+                        if (contacts.get(j).getContactName().equals(newName)) {
+                            contacts.get(j).getContactInfo();
+                            return;
+                        }
+                    }
+                }
                 for (int j = 0; j < length; j++) {
-                    if (contacts.get(j).getContactName().equals(newName)) {
+                    if (contacts.get(j).getContactName().equals(name)) {
                         contacts.get(j).getContactInfo();
                         return;
                     }
                 }
             }
         }
-        System.out.println("Contact " + name + " does not exist");
+        messenger.contactNameNonexistent(name);
     }
 
     public void deleteContact() {
-        System.out.println("Entery name of deleted contact");
+        messenger.contactNameRequest();
         String contactName = scanner.nextLine();
         int lengthContacts = contacts.size();
         for (int i = 0; i < lengthContacts; i++) {
@@ -83,11 +108,11 @@ public class MenuController {
                 }
             }
         }
-        System.out.println("Contact " + contactName + " does not exist");
+        messenger.contactNameNonexistent(contactName);
     }
 
     public void searchGroup() {
-        System.out.println("Entery group name");
+        messenger.groupNameRequest();
         String groupName = scanner.nextLine();
         System.out.println(groupName + ":\n");
         int length = groups.size();
@@ -97,23 +122,25 @@ public class MenuController {
                 return;
             }
         }
-        System.out.println("Group " + groupName + " does not exist");
+        messenger.groupNameRequest();
     }
 
     public void createGroup() {
-        System.out.println("Entery group name");
+        messenger.groupNameRequest();
         String groupName = scanner.nextLine();
-        groups.add(new Group(groupName));
-        System.out.println("Group " + groupName + " was created");
+        if (!groupName.equals("")) {
+            groups.add(new Group(groupName));
+            System.out.println("Group " + groupName + " was created");
+        } else System.out.println("Name can not be empty");
     }
 
     public void addInGroup() {
-        System.out.println("Entery contact name");
+        messenger.contactNameRequest();
         String contactName = scanner.nextLine();
         int contactsLength = contacts.size();
         for (int i = 0; i < contactsLength; i++) {
             if (contacts.get(i).getContactName().equals(contactName)) {
-                System.out.println("Entery group name");
+                messenger.groupNameRequest();
                 String groupName = scanner.nextLine();
                 int groupsLenght = groups.size();
                 for (int j = 0; j < groupsLenght; j++) {
@@ -124,21 +151,21 @@ public class MenuController {
                         return;
                     }
                 }
-                System.out.println("Group " + groupName + " does not exist");
+                messenger.groupNameNonexistent(groupName);
                 return;
             }
         }
-        System.out.println("Contact " + contactName + "does not exist");
+        messenger.contactNameNonexistent(contactName);
         return;
     }
 
     public void deleteFromGroup() {
-        System.out.println("Entery contact name");
+        messenger.contactNameRequest();
         String contactName = scanner.nextLine();
         int contactsLength = contacts.size();
         for (int i = 0; i < contactsLength; i++) {
             if (contacts.get(i).getContactName().equals(contactName)) {
-                System.out.println("Entery group name");
+                messenger.groupNameRequest();
                 String groupName = scanner.nextLine();
                 int groupsLength = groups.size();
                 for (int j = 0; j < groupsLength; j++) {
@@ -154,11 +181,11 @@ public class MenuController {
                         }
                     }
                 }
-                System.out.println("Group " + groupName + " does not exist");
+                messenger.groupNameNonexistent(groupName);
                 return;
             }
         }
-        System.out.println("Contact " + contactName + " does not exist");
+        messenger.contactNameNonexistent(contactName);
     }
 
     public void checkContacts() {
@@ -176,7 +203,7 @@ public class MenuController {
     }
 
     public void deleteGroup() {
-        System.out.println("Entery name of group");
+        messenger.groupNameRequest();
         String groupname = scanner.nextLine();
         int groupLength = groups.size();
         for (int i = 0; i < groupLength; i++) {
@@ -199,7 +226,7 @@ public class MenuController {
     }
 
     public void updateGroup() {
-        System.out.println("Entery name of group");
+        messenger.groupNameRequest();
         String groupname = scanner.nextLine();
         int groupLength = groups.size();
         for (int i = 0; i < groupLength; i++) {

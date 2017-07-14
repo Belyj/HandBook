@@ -12,7 +12,7 @@ import java.util.Scanner;
  * Created by asus on 11.07.2017.
  */
 public class Main {
-    public  static Serial serialize;
+    public  static Serial serial;
     static Menu menu = new Menu();
     public static boolean flag = true;
     public static List<Contact> contacts = new ArrayList();
@@ -33,17 +33,11 @@ public class Main {
     }
 
     private static void serialize() {
-        serialize = new Serial();
-        int contactsLength = contacts.size();
-        for (int i = 0; i < contactsLength; i++) {
-            serialize.getContacts().add(contacts.get(i));
-        }
-        int groupsLength = groups.size();
-        for (int i = 0; i < groupsLength; i++) {
-            serialize.getGroups().add(groups.get(i));
-        }
+        serial = new Serial();
+        serial.setContacts(contacts);
+        serial.setGroups(groups);
         try {
-            createOOS().writeObject(serialize);
+            createOOS().writeObject(serial);
             System.out.println("Serializing is success");
         } catch (IOException e) {
             e.printStackTrace();

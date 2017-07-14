@@ -22,11 +22,19 @@ public class Serial implements Serializable {
         return groups;
     }
 
-    public void setContacts(List<Contact> contacts) {
-        this.contacts = contacts;
+    public void setContacts(List<Contact> incomingContacts) {
+        int contactsLength = contacts.size();
+        for (int i = 0; i < contactsLength; i++) {
+            contacts.add(incomingContacts.get(i));
+        }
+        System.out.println("Contacts: was serialized");
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setGroups(List<Group> incomingGroups) {
+        int groupssLength = groups.size();
+        for (int i = 0; i < groupssLength; i++) {
+            groups.add(incomingGroups.get(i));
+        }
+        System.out.println("Groups: was serialized");
     }
 }
