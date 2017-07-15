@@ -1,5 +1,6 @@
 package ru.handbook.core;
 
+import ru.handbook.HandbookExceptions.NotCorrectCommandException;
 import ru.handbook.Serialization.Serial;
 import ru.handbook.model.Contact;
 import ru.handbook.model.Group;

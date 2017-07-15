@@ -4,12 +4,8 @@ import ru.handbook.model.Contact;
 import ru.handbook.model.Group;
 
 import static ru.handbook.core.Main.flag;
-import static ru.handbook.core.Main.contacts;
-import static ru.handbook.core.Main.groups;
-import static ru.handbook.core.Main.scanner;
 import java.io.Serializable;
 import ru.handbook.Controller.MenuController;
-import java.util.ArrayList;
 
 /**
  * Created by operator1 on 12.07.2017.
