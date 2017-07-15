@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
+import static ru.handbook.core.Serializer.*;
+
 /**
  * Created by asus on 11.07.2017.
  */
@@ -28,93 +31,12 @@ public class Main {
             if (scanner.hasNextInt()) {
                 menu.command(Integer.parseInt(scanner.nextLine()));
             } else throw new NotCorrectCommandException("Command must be integer");
+//            try {
+//                menu.command(Integer.parseInt(scanner.nextLine()));
+//            } catch (NotCorrectCommandException e) {
+//                e.printStackTrace();
+//            }
         }
         serialize();
-    }
-
-    private static void serialize() {
-        serial = new Serial();
-        serial.setContacts(contacts);
-        serial.setGroups(groups);
-        try {
-            createOOS().writeObject(serial);
-            System.out.println("Serializing is success");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void deSerialize() {
-        ObjectInputStream objectInputStream = createOIS();
-        try {
-            Serial serial = (Serial) objectInputStream.readObject();
-            int serialContactsLength = serial.getContacts().size();
-            for (int i = 0; i < serialContactsLength; i++) {
-                contacts.add(serial.getContacts().get(i));
-            }
-            int serialGroupLength = serial.getGroups().size();
-            for (int i = 0; i < serialGroupLength; i++) {
-                groups.add(serial.getGroups().get(i));
-            }
-            System.out.println("Read file success");
-        } catch (IOException e) {
-            deSerialize();
-        } catch (ClassNotFoundException e) {
-            System.out.println("Handbook have not component for reading file");
-        }
-    }
-
-    public static ObjectInputStream createOIS() {
-        try {
-            System.out.println("Creating ObjectInputStream...");
-            return new ObjectInputStream(createFIS());
-        } catch (IOException e) {
-            createOIS();
-        }
-        return createOIS();
-    }
-
-    public static FileInputStream createFIS() {
-        try {
-            System.out.println("Creating FileInputStream...");
-            return new FileInputStream("temp.out");
-        } catch (FileNotFoundException e) {
-            createFile();
-        }
-        return createFIS();
-    }
-
-    private static ObjectOutputStream createOOS() {
-        try {
-            System.out.println("Creating ObjectOutputStream...");
-            return new ObjectOutputStream(createFOS());
-        } catch (IOException e) {
-            createOOS();
-        }
-        return createOOS();
-    }
-
-    private static FileOutputStream createFOS() {
-        try {
-            System.out.println("Creating FileOutputStream...");
-            return  new FileOutputStream("temp.out");
-        } catch (FileNotFoundException e) {
-            createFile();
-            createFOS();
-        }
-        return createFOS();
-    }
-
-    private static File createFile() {
-        String path = new File("").getAbsolutePath();
-        System.out.println("Creating file for serialization...");
-        return new File(path + "temp.out");
-    }
-
-    public static void testData() {
-        Contact contact = new Contact("Ivan");
-        contacts.add(contact);
-        Group group = new Group("Friends");
-        groups.add(group);
     }
 }

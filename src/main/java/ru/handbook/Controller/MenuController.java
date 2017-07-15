@@ -200,7 +200,7 @@ public class MenuController {
 
     public void checkContacts() {
         int contactsLength = contacts.size();
-        if (contacts.get(0).getContactName() != null) {
+        if (contacts != null) {
             for (int i = 0; i < contactsLength; i++) {
                 contacts.get(i).getContactInfo();
             }
@@ -209,7 +209,7 @@ public class MenuController {
 
     public void checkGroups() {
         int groupsLength = groups.size();
-        if (groups.get(0).getGroupName() != null) {
+        if (groups != null) {
             for (int i = 0; i < groupsLength; i++) {
                 groups.get(i).getGroupInfo();
             }
