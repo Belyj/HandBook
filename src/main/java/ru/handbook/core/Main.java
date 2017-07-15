@@ -23,7 +23,6 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        //testData();
         deSerialize();
         while (flag) {
             System.out.println("Entery #comand");
@@ -31,11 +30,6 @@ public class Main {
             if (scanner.hasNextInt()) {
                 menu.command(Integer.parseInt(scanner.nextLine()));
             } else throw new NotCorrectCommandException("Command must be integer");
-//            try {
-//                menu.command(Integer.parseInt(scanner.nextLine()));
-//            } catch (NotCorrectCommandException e) {
-//                e.printStackTrace();
-//            }
         }
         serialize();
     }

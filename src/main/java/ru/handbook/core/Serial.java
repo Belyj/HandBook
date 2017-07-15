@@ -23,7 +23,7 @@ public class Serial implements Serializable {
     }
 
     public void setContacts(List<Contact> incomingContacts) {
-        int contactsLength = contacts.size();
+        int contactsLength = incomingContacts.size();
         for (int i = 0; i < contactsLength; i++) {
             contacts.add(incomingContacts.get(i));
         }

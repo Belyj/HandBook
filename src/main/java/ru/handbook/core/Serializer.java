@@ -14,23 +14,29 @@ import static ru.handbook.core.Main.serial;
  */
 public class Serializer {
     static void serialize() {
+        ObjectOutputStream objectOutputStream = createOOS();
         serial = new Serial();
         serial.setContacts(contacts);
         serial.setGroups(groups);
         try {
-            createOOS().writeObject(serial);
+            objectOutputStream.writeObject(serial);
             System.out.println("Serializing is success");
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                objectOutputStream.close();
+            } catch (IOException e) {
+                System.out.println("File did not create");
+            }
         }
     }
 
     public static void deSerialize() {
         ObjectInputStream objectInputStream = createOIS();
         try {
-            String path = String.valueOf(new File("").getAbsoluteFile());
-            File fileName = new File(path + "temp.out");
-            if (fileName.exists()) {
+            if (new File("temp.out").exists()) {
+                System.out.println("File founded");
                 Serial serial = (Serial) objectInputStream.readObject();
                 int serialContactsLength = serial.getContacts().size();
                 for (int i = 0; i < serialContactsLength; i++) {
@@ -43,7 +49,7 @@ public class Serializer {
                 System.out.println("Read file success");
             }
         } catch (IOException e) {
-            System.out.println("File for serializing not found");
+            System.out.println("File for deserializing not found");
         } catch (ClassNotFoundException e) {
             System.out.println("Handbook have not component for reading file");
         }
@@ -51,25 +57,26 @@ public class Serializer {
 
     public static ObjectInputStream createOIS() {
         try {
-            //String path = String.valueOf(new File("").getAbsoluteFile());
-            File fileName = new File(new File("").getAbsolutePath() + "temp.out");
-            if (fileName.exists()) {
+            String path = new File("").getAbsolutePath();
+            //File fileName = new File(new File("").getAbsolutePath() + "temp.out");
+            //if (new File(path + "temp.out").exists()) {
                 System.out.println("Creating ObjectInputStream...");
                 return new ObjectInputStream(createFIS());
-            }
+            //} else System.out.println("File does not exist");
         } catch (IOException e) {
             System.out.println("File for serializing not found");
         }
-        return createOIS();
+        return null;
     }
 
     public static FileInputStream createFIS() {
         try {
             System.out.println("Creating FileInputStream...");
-            return new FileInputStream("/temp.out");
+            return new FileInputStream("temp.out");
         } catch (FileNotFoundException e) {
 
         }
+        System.out.println("File not found");
         return null;
     }
 
