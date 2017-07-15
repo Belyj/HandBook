@@ -1,15 +1,15 @@
 package ru.handbook.core;
 
+import ru.handbook.Serialization.Serial;
 import ru.handbook.model.Contact;
 import ru.handbook.model.Group;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
-import static ru.handbook.core.Serializer.*;
+import static ru.handbook.Serialization.Deserializator.deSerialize;
+import static ru.handbook.Serialization.Serializer.*;
 
 /**
  * Created by asus on 11.07.2017.

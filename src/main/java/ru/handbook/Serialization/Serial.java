@@ -1,4 +1,4 @@
-package ru.handbook.core;
+package ru.handbook.Serialization;
 
 import ru.handbook.model.Contact;
 import ru.handbook.model.Group;
@@ -31,7 +31,7 @@ public class Serial implements Serializable {
     }
 
     public void setGroups(List<Group> incomingGroups) {
-        int groupssLength = groups.size();
+        int groupssLength = incomingGroups.size();
         for (int i = 0; i < groupssLength; i++) {
             groups.add(incomingGroups.get(i));
         }
