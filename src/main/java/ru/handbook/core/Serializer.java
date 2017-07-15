@@ -27,7 +27,7 @@ public class Serializer {
             try {
                 objectOutputStream.close();
             } catch (IOException e) {
-                System.out.println("File did not create");
+                System.out.println("OutputStream did not ctreate");
             }
         }
     }
@@ -52,6 +52,12 @@ public class Serializer {
             System.out.println("File for deserializing not found");
         } catch (ClassNotFoundException e) {
             System.out.println("Handbook have not component for reading file");
+        } finally {
+            try {
+                objectInputStream.close();
+            } catch (IOException e) {
+                System.out.println("Inputstream didnot created");
+            }
         }
     }
 
