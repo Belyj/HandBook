@@ -24,13 +24,14 @@ public class Deserializer {
                     groups.add(serial.getGroups().get(i));
                 }
                 System.out.println("Read file success");
+                return;
             }
         } catch (IOException e) {
             System.out.println("File for deserializing not found");
         } catch (ClassNotFoundException e) {
             System.out.println("Handbook have not component for reading file");
         } finally {
-            if (new File(new File("").getAbsolutePath() + "temp.out").exists()) {
+            if (new File("temp.out").exists()) {
                 try {
                     objectInputStream.close();
                     return;
@@ -38,8 +39,7 @@ public class Deserializer {
                     System.out.println("Inputstream didnot created");
                     return;
                 }
-            }
-            System.out.println("Inputstream didnot created");
+            } else System.out.println("Inputstream didnot created");
         }
     }
 
