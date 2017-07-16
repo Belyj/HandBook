@@ -199,10 +199,10 @@ public class MenuController {
     }
 
     public void checkContacts() {
-        int contactsLength = contacts.size();
         if (contacts != null) {
+            int contactsLength = contacts.size();
             for (int i = 0; i < contactsLength; i++) {
-                contacts.get(i).getContactInfo();
+                System.out.println(contacts.get(i).getContactName());
             }
         } else messenger.emptyList("Contact");
     }

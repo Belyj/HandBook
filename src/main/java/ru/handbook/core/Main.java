@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static ru.handbook.Serialization.Deserializator.deSerialize;
+import static ru.handbook.Serialization.Deserializer.deSerialize;
 import static ru.handbook.Serialization.Serializer.*;
 
 /**

@@ -8,7 +8,7 @@ import static ru.handbook.core.Main.groups;
 /**
  * Created by asus on 16.07.2017.
  */
-public class Deserializator {
+public class Deserializer {
     public static void deSerialize() {
         ObjectInputStream objectInputStream = createOIS();
         try {
@@ -30,22 +30,26 @@ public class Deserializator {
         } catch (ClassNotFoundException e) {
             System.out.println("Handbook have not component for reading file");
         } finally {
-            try {
-                objectInputStream.close();
-            } catch (IOException e) {
-                System.out.println("Inputstream didnot created");
+            if (new File(new File("").getAbsolutePath() + "temp.out").exists()) {
+                try {
+                    objectInputStream.close();
+                    return;
+                } catch (IOException e) {
+                    System.out.println("Inputstream didnot created");
+                    return;
+                }
             }
+            System.out.println("Inputstream didnot created");
         }
     }
 
     public static ObjectInputStream createOIS() {
         try {
-            String path = new File("").getAbsolutePath();
-            //File fileName = new File(new File("").getAbsolutePath() + "temp.out");
-            //if (new File(path + "temp.out").exists()) {
+            //String path = new File("").getAbsolutePath();
+            if (new File("temp.out").exists()) {
             System.out.println("Creating ObjectInputStream...");
             return new ObjectInputStream(createFIS());
-            //} else System.out.println("File does not exist");
+            } else System.out.println("File does not exist");
         } catch (IOException e) {
             System.out.println("File for serializing not found");
         }
