@@ -31,6 +31,11 @@ public class Main {
             if (scanner.hasNextInt()) {
                 menu.command(Integer.parseInt(scanner.nextLine()));
             } else throw new NotCorrectCommandException("Command must be integer");
+//            try {
+//                menu.command(Integer.parseInt(scanner.nextLine()));
+//            } catch (NotCorrectCommandException e) {
+//                e.printStackTrace();
+//            }
         }
         serialize();
     }
