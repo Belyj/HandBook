@@ -168,6 +168,6 @@ public class ContactActions implements HandbookActions {
             for (int i = 0; i < contactsLength; i++) {
                 System.out.println(contacts.get(i).getContactName());
             }
-        } else messenger.emptyList("Contact");
+        } else messenger.emptyList("Contact list");
     }
 }

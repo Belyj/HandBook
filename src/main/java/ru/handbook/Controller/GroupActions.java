@@ -98,6 +98,6 @@ public class GroupActions implements HandbookActions {
             for (int i = 0; i < groupsLength; i++) {
                 System.out.println(groups.get(i).getGroupName());
             }
-        } else messenger.emptyList("Group");
+        } else messenger.emptyList("Group list");
     }
 }
