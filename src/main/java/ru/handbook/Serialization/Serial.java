@@ -11,8 +11,8 @@ import java.util.List;
  * Created by operator1 on 14.07.2017.
  */
 public class Serial implements Serializable {
-    private List<Contact> contacts = new ArrayList();
-    private List<Group> groups = new ArrayList();
+    private List<Contact> contacts;
+    private List<Group> groups;
 
     public List<Contact> getContacts() {
         return contacts;
@@ -23,18 +23,12 @@ public class Serial implements Serializable {
     }
 
     public void setContacts(List<Contact> incomingContacts) {
-        int contactsLength = incomingContacts.size();
-        for (int i = 0; i < contactsLength; i++) {
-            contacts.add(incomingContacts.get(i));
-        }
+        contacts = incomingContacts;
         System.out.println("Contacts: was serialized");
     }
 
     public void setGroups(List<Group> incomingGroups) {
-        int groupssLength = incomingGroups.size();
-        for (int i = 0; i < groupssLength; i++) {
-            groups.add(incomingGroups.get(i));
-        }
+        groups = incomingGroups;
         System.out.println("Groups: was serialized");
     }
 }

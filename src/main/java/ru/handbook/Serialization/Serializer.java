@@ -38,12 +38,14 @@ public class Serializer {
 
     private static ObjectOutputStream createOOS() {
         try {
-            System.out.println("Creating ObjectOutputStream...");
-            return new ObjectOutputStream(createFOS());
+            if (new File("temp.out").exists()) {
+                System.out.println("Creating ObjectOutputStream...");
+                return new ObjectOutputStream(createFOS());
+            }  else System.out.println("File does not exist");
         } catch (IOException e) {
-            createOOS();
+            System.out.println("File for serializing not found");
         }
-        return createOOS();
+        return null;
     }
 
     private static FileOutputStream createFOS() {
@@ -52,8 +54,8 @@ public class Serializer {
             return  new FileOutputStream("temp.out");
         } catch (FileNotFoundException e) {
             createFile();
-            createFOS();
         }
-        return createFOS();
+        System.out.println("File not found");
+        return null;
     }
 }

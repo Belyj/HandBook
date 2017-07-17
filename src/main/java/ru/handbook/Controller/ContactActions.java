@@ -26,17 +26,17 @@ public class ContactActions implements HandbookActions {
         } else messenger.emptyName(name);
     }
 
-    public void search() {
+    public Contact search() {
         messenger.nameRequest("contact");
         String name = scanner.nextLine();
         int length = contacts.size();
         for (int i = 0; i < length; i++) {
             if (contacts.get(i).getContactName().equals(name)) {
-                contacts.get(i).getContactInfo();
-                return;
+                return contacts.get(i);
             }
         }
         messenger.nameNonexistent(name);
+        return new Contact("");
     }
 
     public void update() {

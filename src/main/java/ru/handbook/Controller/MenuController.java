@@ -1,22 +1,19 @@
 package ru.handbook.Controller;
 
-import ru.handbook.core.Messenger;
-import ru.handbook.model.Contact;
-import ru.handbook.model.Group;
-import ru.handbook.Controller.*;
-
-import static ru.handbook.core.Main.contacts;
-import static ru.handbook.core.Main.groups;
-import static ru.handbook.core.Main.scanner;
+import ru.handbook.core.SystemMessages;
 
 /**
  * Created by operator1 on 14.07.2017.
  */
 public class MenuController {
-    Messenger messenger = new Messenger();
+    SystemMessages messenger = new SystemMessages();
 
     public void searchContact() {
-        new ContactActions().search();
+//        if (contactActions.search() != null) {
+            new ContactActions().search().getContactInfo();
+//        } else {
+//            messenger.emptyList("Contact");
+//        }
     }
 
     public void createContact() {
@@ -40,11 +37,16 @@ public class MenuController {
     }
 
     public void checkContacts() {
-        new ContactActions().check();
+            new ContactActions().check();
     }
 
     public void searchGroup() {
-        new GroupActions().search();
+
+//        if (new GroupActions().search() != null) {
+            new GroupActions().search().getGroupInfo();
+//        } else {
+//            messenger.emptyList("Group");
+//        }
     }
 
     public void createGroup() {

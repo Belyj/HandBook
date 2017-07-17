@@ -15,14 +15,8 @@ public class Deserializer {
             if (new File("temp.out").exists()) {
                 System.out.println("File founded");
                 Serial serial = (Serial) objectInputStream.readObject();
-                int serialContactsLength = serial.getContacts().size();
-                for (int i = 0; i < serialContactsLength; i++) {
-                    contacts.add(serial.getContacts().get(i));
-                }
-                int serialGroupLength = serial.getGroups().size();
-                for (int i = 0; i < serialGroupLength; i++) {
-                    groups.add(serial.getGroups().get(i));
-                }
+                contacts = serial.getContacts();
+                groups = serial.getGroups();
                 System.out.println("Read file success");
                 return;
             }
@@ -47,8 +41,8 @@ public class Deserializer {
         try {
             //String path = new File("").getAbsolutePath();
             if (new File("temp.out").exists()) {
-            System.out.println("Creating ObjectInputStream...");
-            return new ObjectInputStream(createFIS());
+                System.out.println("Creating ObjectInputStream...");
+                return new ObjectInputStream(createFIS());
             } else System.out.println("File does not exist");
         } catch (IOException e) {
             System.out.println("File for serializing not found");

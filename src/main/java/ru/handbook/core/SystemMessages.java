@@ -3,7 +3,7 @@ package ru.handbook.core;
 /**
  * Created by operator1 on 14.07.2017.
  */
-public class Messenger {
+public class SystemMessages {
     final public void nameRequest(String s) {
         System.out.println("Entery " + s + " name");
     }

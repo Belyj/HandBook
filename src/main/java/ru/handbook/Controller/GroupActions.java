@@ -28,18 +28,18 @@ public class GroupActions implements HandbookActions {
         }
     }
 
-    public void search() {
+    public Group search() {
         messenger.nameRequest("group");
         String groupName = scanner.nextLine();
         System.out.println(groupName + ":\n");
         int length = groups.size();
         for (int i = 0; i < length; i++) {
             if (groups.get(i).getGroupName().equals(groupName)) {
-                groups.get(i).getGroupInfo();
-                return;
+                return groups.get(i);
             }
         }
         messenger.nameNonexistent(groupName);
+        return new Group("");
     }
 
     public void update() {
